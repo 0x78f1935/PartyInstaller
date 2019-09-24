@@ -49,9 +49,9 @@ class UITools(object):
             ForumButton.clicked.connect(partial(self.action_open_forum_page, url=url))
             ItemInstall = QPushButton(ForumButton)
             ItemInstall.setText('Install')
-            ItemInstall.clicked.connect(callback)
+            ItemInstall.clicked.connect(partial(callback, name=name))
             ItemInstall.setEnabled(False)
-            ForumButton.setObjectName("button")
+            ItemInstall.setObjectName(name)
             contentview.addWidget(ForumButton)
             rows.append(ForumButton.parentWidget())
         return rows

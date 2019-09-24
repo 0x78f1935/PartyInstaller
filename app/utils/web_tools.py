@@ -72,7 +72,7 @@ class WebTools(object):
             elif 'please read - custom story showcase announcements and rules' in name.lower():
                 results["rules"] = url
             else:
-                results['stories'][name] = url
+                results['stories'][name.lower()] = url
 
         return results
 
@@ -92,3 +92,14 @@ class WebTools(object):
             if "viewtopic" in str(liitem):
                 result.append(liitem)
         return result
+
+    def scrape_zip(self, url):
+        """Scrapes zips from url"""
+        htmlpage = self.create_html_page_from_url(url)
+        links = []
+
+        soup = BeautifulSoup(htmlpage, 'html.parser')
+        for link in soup.find_all(attrs={'href': re.compile("./download")}):
+            links.append((link.get('href').replace('./', 'https://forum.eekllc.com/'), link.contents[0]))
+
+        return links

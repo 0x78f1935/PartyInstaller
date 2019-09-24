@@ -44,10 +44,25 @@ class PartyInstaller(QtWidgets.QMainWindow):
         """Sets the texts of the footer bar"""
         self.ui.statusbar.showMessage(text)
 
-    def execute_installation(self):
+    def __set_buttons(self):
+        """Get the rendered buttons"""
+        result = {}
+        for rowbuttons in self.ui.rows:
+            for installbtn in rowbuttons.children():
+                result[installbtn.objectName().lower()] = installbtn
+        return result
+
+    def execute_installation(self, name):
         
         # data = self.webtools.fetch_all_li(self.webtools.create_html_page_from_url("https://forum.eekllc.com/viewforum.php?f=8"))
-        print("Installing")
+        # for rowbuttons in self.ui.rows:
+        #     for installbtn in rowbuttons.children():
+        _buttons = self.__set_buttons()
+        button = _buttons[name]
+        forum = self.data['stories'][name]
+        storyzips = self.webtools.scrape_zip(forum)
+        print(f"Installing {storyzips}")
+        # TODO show popup with zip installation choices
         return
         # for item in data: print(item)
 
