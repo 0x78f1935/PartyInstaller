@@ -1,6 +1,7 @@
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import (QWidget, QGridLayout, QPushButton, QApplication)
 from functools import partial
+from os.path import expanduser, join
 import webbrowser
 
 class UITools(object):
@@ -54,3 +55,11 @@ class UITools(object):
             contentview.addWidget(ForumButton)
             rows.append(ForumButton.parentWidget())
         return rows
+
+    def find_my_document_folder(self):
+        """Locates my documents also works if documents location and/or default save location is changed by user."""
+        return expanduser("~")
+
+    def find_storie_folder(self):
+        """Locates Stories folder"""
+        return join(self.find_my_document_folder(), 'Documents', 'Eek', 'House Party', 'Stories')

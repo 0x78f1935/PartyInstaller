@@ -44,7 +44,7 @@ class Ui_MainWindow(object):
         self.ContentView.setWidgetResizable(True)
         self.ContentView.setObjectName("ContentView")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 618, 346))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 618, 369))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
@@ -56,9 +56,6 @@ class Ui_MainWindow(object):
         self.ContentView.setWidget(self.scrollAreaWidgetContents)
         self.verticalLayout.addWidget(self.ContentView)
         self.verticalLayout_2.addLayout(self.verticalLayout)
-        self.Version = QtWidgets.QLabel(self.centralwidget)
-        self.Version.setObjectName("Version")
-        self.verticalLayout_2.addWidget(self.Version)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 640, 22))
@@ -81,7 +78,6 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Party Installer"))
         self.Info.setText(_translate("MainWindow", "TextLabel"))
-        self.Version.setText(_translate("MainWindow", "TextLabel"))
         self.menuConfigure.setTitle(_translate("MainWindow", "Configure"))
         self.setFolder.setText(_translate("MainWindow", "Set Intsallation Folder"))
 
