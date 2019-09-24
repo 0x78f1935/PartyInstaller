@@ -14,6 +14,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(640, 480)
+        MainWindow.setMinimumSize(QtCore.QSize(640, 480))
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.centralwidget)
@@ -43,7 +44,7 @@ class Ui_MainWindow(object):
         self.ContentView.setWidgetResizable(True)
         self.ContentView.setObjectName("ContentView")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 618, 369))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 618, 346))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
@@ -55,14 +56,23 @@ class Ui_MainWindow(object):
         self.ContentView.setWidget(self.scrollAreaWidgetContents)
         self.verticalLayout.addWidget(self.ContentView)
         self.verticalLayout_2.addLayout(self.verticalLayout)
+        self.Version = QtWidgets.QLabel(self.centralwidget)
+        self.Version.setObjectName("Version")
+        self.verticalLayout_2.addWidget(self.Version)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 640, 22))
         self.menubar.setObjectName("menubar")
+        self.menuConfigure = QtWidgets.QMenu(self.menubar)
+        self.menuConfigure.setObjectName("menuConfigure")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
+        self.setFolder = QtWidgets.QAction(MainWindow)
+        self.setFolder.setObjectName("setFolder")
+        self.menuConfigure.addAction(self.setFolder)
+        self.menubar.addAction(self.menuConfigure.menuAction())
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -71,6 +81,9 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Party Installer"))
         self.Info.setText(_translate("MainWindow", "TextLabel"))
+        self.Version.setText(_translate("MainWindow", "TextLabel"))
+        self.menuConfigure.setTitle(_translate("MainWindow", "Configure"))
+        self.setFolder.setText(_translate("MainWindow", "Set Intsallation Folder"))
 
 
 if __name__ == "__main__":

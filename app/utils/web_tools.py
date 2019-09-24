@@ -68,7 +68,7 @@ class WebTools(object):
             if 'Custom Story Creator' in name:
                 results['csc']['thread'] = url
                 results['csc']['thread_title'] = name
-                results["current_version"] = re.search(r'(csc).*(\d+\.)?(\d+\.)?(\*|\d+)', results['csc']['thread_title'].lower())
+                results["current_version"] = str(re.search(r'(csc).*(\d+\.)?(\d+\.)?(\*|\d+)', results['csc']['thread_title'].lower()).group()).replace('csc', 'Version')
             elif 'please read - custom story showcase announcements and rules' in name.lower():
                 results["rules"] = url
             else:

@@ -1,5 +1,6 @@
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtWidgets import (QWidget, QGridLayout,QPushButton, QApplication)
+from PyQt5.QtWidgets import (QWidget, QGridLayout, QPushButton, QApplication)
+from functools import partial
 import webbrowser
 
 class UITools(object):
@@ -35,11 +36,21 @@ class UITools(object):
             Method, Callback function for the install button to execute
         contentview
             Panel, The PyQt5 panel which the rows should be rendered on
+
+        Returns
+        -------
+        Returns the rows we just created in list format, this way we can
+        manipulate the rows themself in code
         """
+        rows = []
         for name, url in data["stories"].items():
             ForumButton = QPushButton(name)
-            ForumButton.clicked.connect(lambda: self.action_open_forum_page(url))
+            ForumButton.clicked.connect(partial(self.action_open_forum_page, url=url))
             ItemInstall = QPushButton(ForumButton)
             ItemInstall.setText('Install')
             ItemInstall.clicked.connect(callback)
+            ItemInstall.setEnabled(False)
+            ForumButton.setObjectName("button")
             contentview.addWidget(ForumButton)
+            rows.append(ForumButton.parentWidget())
+        return rows
