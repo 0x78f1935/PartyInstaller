@@ -1,13 +1,16 @@
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import (QWidget, QGridLayout, QPushButton, QApplication)
+from app.window.popup import Ui_Form
+from app.utils.web_tools import WebTools
 from functools import partial
-from os.path import expanduser, join
+from os.path import expanduser, join, exists
 import webbrowser
 
 class UITools(object):
-    def __init__(self):
+    def __init__(self, root):
         print(" * UI Tools initialized ...")
         self.row_margin = (-1, 60, -1, -1)
+        self.root = root
 
     def action_open_forum_page(self, url):
         return webbrowser.open(url)
@@ -63,3 +66,51 @@ class UITools(object):
     def find_storie_folder(self):
         """Locates Stories folder"""
         return join(self.find_my_document_folder(), 'Documents', 'Eek', 'House Party', 'Stories')
+
+
+class InstallationPopup(QtWidgets.QDialog):
+    def __init__(self, root, name, storyzips, forum, button):
+        super(InstallationPopup, self).__init__()
+
+        self.name = name
+        self.forum = forum
+        self.storyzips = storyzips
+        self.root = root
+        self.installation_location = self.root.installation_path
+        
+        self.ui = Ui_Form()
+        self.ui.setupUi(self)
+
+        self.tools = UITools(self)
+        self.webtools = WebTools()
+
+        self.ui.Name.setText(self.name) # Set title
+        # Set information for install screen
+        self.ui.installinfo.setText("""
+        Make sure you install the base story first.
+        Still having issues? Check out the forum page.
+        """ )
+        # Set forum button
+        self.ui.forumbutton.clicked.connect(partial(self.tools.action_open_forum_page, url=forum))
+        self.ui.backButton.clicked.connect(self.back)
+
+        self.buttons = []
+        for item in self.storyzips:    
+            ForumButton = QPushButton(name)
+            ForumButton.clicked.connect(partial(self.download, name=item[1], url=item[0], button=button))
+            ForumButton.setText(item[1])  # Set the name
+            ForumButton.url = item[0]
+            ForumButton.name = item[1]
+            self.buttons.append(ForumButton)
+            self.ui.contentview.addWidget(ForumButton)
+
+    def back(self):
+        self.root.toggle_view()
+        self.setParent(None)
+        return
+
+    def download(self, name, url, button):
+        print(f"{name} - {url}")
+        self.webtools.download_zip(url, name, self.installation_location)
+        button.setStyleSheet("background-color: green")
+        self.back()

@@ -1,7 +1,8 @@
-import requests
-import re
+import requests, zipfile
+from io import BytesIO
+import re, os, pathlib, shutil
 from bs4 import BeautifulSoup
-
+from zipfile import ZipFile
 
 class WebTools(object):
     def __init__(self):
@@ -37,7 +38,7 @@ class WebTools(object):
     
     def format_dirty_links(self, data):
         """
-        This method reads the Eeck form form page.
+        This method reads the Eeck form forum page.
         https://forum.eekllc.com/viewforum.php?f=8
         It will remove all pages and filters duplicates.
         """
@@ -103,3 +104,46 @@ class WebTools(object):
             links.append((link.get('href').replace('./', 'https://forum.eekllc.com/'), link.contents[0]))
 
         return links
+
+    def download_zip(self, url:str, name:str, location:str):
+        """Download zip from url to location"""
+        target_path = os.path.join(location, name)
+        r = requests.get(url, stream =True, allow_redirects=True)
+        with open(os.path.join(location, str("~" + name)), "wb") as f:
+            f.write(r.content)
+        
+        # zfile = ZipFile(os.path.join(location, str("~" + name)))
+        # zfile.extractall(path=target_path[:int(len(target_path)-4)])
+        
+        # # Extract zip filterd
+        try:
+            with ZipFile(os.path.join(location, str("~" + name)), 'r') as zipObj:
+                # Get a list of all archived file names from the zip
+                listOfFileNames = zipObj.namelist()
+                # Iterate over the file names
+                for fileName in listOfFileNames:
+                    # Check filename endswith csv
+                    if fileName.endswith('.character') or fileName.endswith('.story'):
+                        # Extract a single file from zip
+                        zipObj.extract(fileName, target_path[: int(len(target_path) - 4)])
+            self._rebuild_story_folder(target_path[: int(len(target_path) - 4)])
+        except zipfile.BadZipFile:
+            # TODO error message
+            print("This is not a zipfile therefor manual installation is required")
+                    
+    def _rebuild_story_folder(self, folder_location):
+        """Rebuild story folder to playable format"""
+        _path = pathlib.Path(folder_location)
+        all_items = [p for p in _path.rglob("*")]
+        if all_items and os.path.isdir(str(min(all_items))):
+            try:
+                [shutil.move(str(p), folder_location) for p in pathlib.Path(str(min(all_items))).rglob("*")]
+                str(pathlib.Path(str(min(all_items)))).split("/")[::-1][0]
+                os.rename(_path, os.path.join(_path.resolve().parent, str(pathlib.Path(str(min(all_items)))).split("/")[::-1][0]))
+                for item in [p for p in pathlib.Path(os.path.join(_path.resolve().parent, str(pathlib.Path(str(min(all_items)))).split("/")[::-1][0]), str(folder_location).split("/")[::-1][0]).rglob("*")]:
+                    print(item)
+                    os.remove(str(item))
+            except OSError:
+                print('error')
+                pass # TODO error message
+        print(all_items)

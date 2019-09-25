@@ -78,14 +78,41 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
-           <layout class="QVBoxLayout" name="layout">
-            <property name="spacing">
-             <number>6</number>
+           <widget class="QFrame" name="layoutframe">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
             </property>
-            <property name="topMargin">
-             <number>0</number>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
             </property>
-           </layout>
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <item>
+              <layout class="QVBoxLayout" name="layout">
+               <property name="spacing">
+                <number>6</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="layoutversionsframe">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_5">
+             <item>
+              <layout class="QVBoxLayout" name="layoutversions"/>
+             </item>
+            </layout>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -104,6 +131,9 @@
      <height>22</height>
     </rect>
    </property>
+   <property name="toolTipDuration">
+    <number>0</number>
+   </property>
    <widget class="QMenu" name="menuConfigure">
     <property name="title">
      <string>Configure</string>
@@ -115,7 +145,13 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="setFolder">
    <property name="text">
-    <string>Set Intsallation Folder</string>
+    <string>Set Story Folder</string>
+   </property>
+   <property name="whatsThis">
+    <string/>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
    </property>
   </action>
  </widget>
