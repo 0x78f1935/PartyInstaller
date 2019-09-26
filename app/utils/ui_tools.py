@@ -8,7 +8,6 @@ import webbrowser, platform, os
 
 class UITools(object):
     def __init__(self, root):
-        print(" * UI Tools initialized ...")
         self.row_margin = (-1, 60, -1, -1)
         self.root = root
 
@@ -72,6 +71,7 @@ class UITools(object):
             
 
 class InstallationPopup(QtWidgets.QDialog):
+    """ This widget gets called when a user clicks the install button """
     def __init__(self, root, name, storyzips, forum, button):
         super(InstallationPopup, self).__init__()
 
@@ -85,7 +85,7 @@ class InstallationPopup(QtWidgets.QDialog):
         self.ui.setupUi(self)
 
         self.tools = UITools(self)
-        self.webtools = WebTools()
+        self.webtools = WebTools(self.root)
 
         self.ui.Name.setText(self.name) # Set title
         # Set information for install screen
@@ -108,12 +108,20 @@ class InstallationPopup(QtWidgets.QDialog):
             self.ui.contentview.addWidget(ForumButton)
 
     def back(self):
+        """ Closes widget """
         self.root.toggle_view()
         self.setParent(None)
         return
 
     def download(self, name, url, button):
-        print(f"{name} - {url}")
+        self.root.statustext = f'Game {self.root.data["current_version"]} | Installing ...'
+        self.root.set_statusbar(self.root.statustext)
+
         self.webtools.download_zip(url, name, self.installation_location)
         button.setStyleSheet("background-color: green")
-        self.back()
+
+        self.root.statustext = f'Game {self.root.data["current_version"]} | Installed -> {name}'
+        self.root.set_statusbar(self.root.statustext)
+
+        self.back() # Close widget
+        

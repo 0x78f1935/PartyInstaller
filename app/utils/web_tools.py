@@ -1,3 +1,4 @@
+from PyQt5.QtWidgets import QMessageBox
 import requests, zipfile
 from io import BytesIO
 import re, os, pathlib, shutil
@@ -6,11 +7,12 @@ from zipfile import ZipFile
 import platform
 
 class WebTools(object):
-    def __init__(self):
+    def __init__(self, root):
         self._url = "https://forum.eekllc.com/viewforum.php?f=8"
         self._total_pages = []
 
         self.all_hyperlinks = []
+        self.root = root
 
     def fetch_all_hyperlinks(self, htmlpage, look_for_pages: bool = False):
         """Fetches all stories and capable to look for the total pages available
@@ -131,8 +133,12 @@ class WebTools(object):
             self._rebuild_story_folder(target_path[: int(len(target_path) - 4)])
         except zipfile.BadZipFile:
             # TODO error message
-            print("This is not a zipfile therefor manual installation is required")
-                    
+            mb = QMessageBox()
+            mb.setIcon(QMessageBox.Critical)
+            mb.setWindowTitle("Error")
+            mb.setText("This fileformat is not supported")
+            mb.setDetailedText(f"Currently only zip files are supported ...\n\nCheck the forum out for manual installation! Your file is still downloaded and can be located at\n\n\"{os.path.join(location, str('~' + name))}\".")
+            mb.exec() 
                     
     def _rebuild_story_folder(self, folder_location):
         """Rebuild story folder to playable format"""

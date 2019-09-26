@@ -24,7 +24,7 @@ class PartyInstaller(QtWidgets.QMainWindow):
         self.statustext = ""
 
         self.tools = UITools(self)
-        self.webtools = WebTools()
+        self.webtools = WebTools(self)
 
         self.data = self.webtools.scrape_all_pages()
         
@@ -98,23 +98,6 @@ class PartyInstaller(QtWidgets.QMainWindow):
         else:
             self.ui.layoutframe.setVisible(True)
             self.ui.layoutversionsframe.setVisible(False)
-
-    def execute_installation(self, name):
-        
-        # data = self.webtools.fetch_all_li(self.webtools.create_html_page_from_url("https://forum.eekllc.com/viewforum.php?f=8"))
-        # for rowbuttons in self.ui.rows:
-        #     for installbtn in rowbuttons.children():
-
-        self.statustext = f'Game {self.data["current_version"]} | Installing ...'
-        self.set_statusbar(self.statustext)
-        
-
-        self.statustext = f'Game {self.data["current_version"]} | Installed -> {name[:50]}'
-        self.set_statusbar(self.statustext)
-
-        # TODO show popup with zip installation choices
-        return
-        # for item in data: print(item)
 
     def _configure_installation_dir(self):
         if not self.configured:
