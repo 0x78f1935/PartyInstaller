@@ -30,13 +30,12 @@ class PartyInstaller(QtWidgets.QMainWindow):
         
         rows = self.tools.create_rows(self.data, self.look_for_story_versions, self.ui.layout)
         self.ui.rows = [ i for i in rows[0].children() if type(i) == QPushButton]
-
+        self.configured = False
+        
         if exists(self.tools.find_storie_folder()): # Try to automatically find the stories folder
-            self.configured = True
             self.installation_path = self.tools.find_storie_folder()
             self._configure_installation_dir()
         else: # It failed? 
-            self.configured = False
             self.installation_path = None
             self.set_info("Please configure the application first before using.")
             self.statustext = f'Game {self.data["current_version"]} | Game `Stories` folder not found'
