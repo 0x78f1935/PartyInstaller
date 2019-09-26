@@ -27,6 +27,9 @@ class PartyInstaller(QtWidgets.QMainWindow):
         self.webtools = WebTools()
 
         self.data = self.webtools.scrape_all_pages()
+        
+        rows = self.tools.create_rows(self.data, self.look_for_story_versions, self.ui.layout)
+        self.ui.rows = [ i for i in rows[0].children() if type(i) == QPushButton]
 
         if exists(self.tools.find_storie_folder()): # Try to automatically find the stories folder
             self.configured = True
@@ -40,9 +43,6 @@ class PartyInstaller(QtWidgets.QMainWindow):
             self.set_statusbar(self.statustext)
 
         # data = [("hello", "https://google.com"), ("world", "https://codewars.nl")]
-        
-        rows = self.tools.create_rows(self.data, self.look_for_story_versions, self.ui.layout)
-        self.ui.rows = [ i for i in rows[0].children() if type(i) == QPushButton]
 
         self.ui.setFolder.triggered.connect(self.set_installation_folder)
 
