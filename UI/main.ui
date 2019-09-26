@@ -26,7 +26,7 @@
       <property name="minimumSize">
        <size>
         <width>0</width>
-        <height>30</height>
+        <height>50</height>
        </size>
       </property>
       <property name="frameShape">
@@ -38,6 +38,12 @@
       <layout class="QGridLayout" name="gridLayout">
        <item row="0" column="0">
         <widget class="QLabel" name="Info">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>24</height>
+          </size>
+         </property>
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -73,7 +79,7 @@
            <x>0</x>
            <y>0</y>
            <width>618</width>
-           <height>369</height>
+           <height>358</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
