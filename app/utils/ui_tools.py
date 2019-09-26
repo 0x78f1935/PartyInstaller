@@ -65,7 +65,7 @@ class UITools(object):
 
     def find_storie_folder(self):
         """Locates Stories folder"""
-        return join(self.find_my_document_folder(), 'Documents', 'Eek', 'House Party', 'Stories')
+        return join(self.find_my_document_folder(), 'Documents', 'Eek', 'House Party', 'Mods', 'Stories')
 
 
 class InstallationPopup(QtWidgets.QDialog):
