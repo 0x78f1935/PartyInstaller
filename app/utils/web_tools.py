@@ -156,6 +156,6 @@ class WebTools(object):
                 for item in [p for p in pathlib.Path(os.path.join(str(_path.resolve().parent), str(pathlib.Path(str(min(all_items)))).split("/")[::-1][0]), str(pathlib.Path(str(min(all_items)))).split("/")[::-1][0]).rglob("*")]:
                     os.remove(str(item))
                 try:
-                    os.rmdir(min(all_items))(str(pathlib.Path(os.path.join(str(_path.resolve().parent), str(pathlib.Path(str(min(all_items)))).split("/")[::-1][0]), str(pathlib.Path(str(min(all_items)))).split("/")[::-1][0])))
+                    os.rmdir(str(pathlib.Path(os.path.join(str(_path.resolve().parent), str(pathlib.Path(str(min(all_items)))).split("/")[::-1][0]), str(pathlib.Path(str(min(all_items)))).split("/")[::-1][0])))
                 except FileNotFoundError: pass
 

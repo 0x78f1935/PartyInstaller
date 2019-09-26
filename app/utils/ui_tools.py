@@ -4,7 +4,7 @@ from app.window.popup import Ui_Form
 from app.utils.web_tools import WebTools
 from functools import partial
 from os.path import expanduser, join, exists
-import webbrowser
+import webbrowser, platform, os
 
 class UITools(object):
     def __init__(self, root):
@@ -65,8 +65,11 @@ class UITools(object):
 
     def find_storie_folder(self):
         """Locates Stories folder"""
-        return join(self.find_my_document_folder(), 'Documents', 'Eek', 'House Party', 'Mods', 'Stories')
-
+        if platform.system() == 'Windows':
+            return join(self.find_my_document_folder(), 'Documents', 'Eek', 'House Party', 'Mods', 'Stories')
+        else:  # Default wine prefix
+            return join(expanduser('~'), '.steam', 'steam', 'steamapps', 'compatdata', '611790', 'pfx', 'drive_c', 'users', 'steamuser', 'My Documents', 'Eek', 'House Party', 'Mods', 'Stories')
+            
 
 class InstallationPopup(QtWidgets.QDialog):
     def __init__(self, root, name, storyzips, forum, button):
