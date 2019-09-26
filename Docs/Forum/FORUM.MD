@@ -93,6 +93,9 @@ source code at: [url]https://github.com/0x78f1935/PartyInstaller[/url].
 [size=150][b][i][u]WINDOWS[/u][/i][/b][/size]
 [list]
 [*] Start the exe which is the compiled version of the same application
+    The reason why the windows version is bigger is because python is packed
+    into the exe itself. This is because windows doesn't come nativly with
+    python.
 [/list]
 
 [size=150][b][i][u]Linux[/u][/i][/b][/size]
