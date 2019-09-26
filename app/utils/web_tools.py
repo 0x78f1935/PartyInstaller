@@ -75,9 +75,10 @@ class WebTools(object):
                 results["current_version"] = str(re.search(r'(csc).*(\d+\.)?(\d+\.)?(\*|\d+)', results['csc']['thread_title'].lower()).group()).replace('csc', 'Version')
             elif 'please read - custom story showcase announcements and rules' in name.lower():
                 results["rules"] = url
+            elif '[unofficial] party installer' in name.lower():
+                results["client"] = url
             else:
                 results['stories'][name.lower()] = url
-
         return results
 
     def scrape_all_pages(self):
