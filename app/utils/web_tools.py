@@ -3,6 +3,7 @@ from io import BytesIO
 import re, os, pathlib, shutil
 from bs4 import BeautifulSoup
 from zipfile import ZipFile
+import platform
 
 class WebTools(object):
     def __init__(self):
@@ -126,6 +127,7 @@ class WebTools(object):
                     if fileName.endswith('.character') or fileName.endswith('.story'):
                         # Extract a single file from zip
                         zipObj.extract(fileName, target_path[: int(len(target_path) - 4)])
+
             self._rebuild_story_folder(target_path[: int(len(target_path) - 4)])
         except zipfile.BadZipFile:
             # TODO error message
@@ -136,14 +138,12 @@ class WebTools(object):
         _path = pathlib.Path(folder_location)
         all_items = [p for p in _path.rglob("*")]
         if all_items and os.path.isdir(str(min(all_items))):
-            try:
-                [shutil.move(str(p), folder_location) for p in pathlib.Path(str(min(all_items))).rglob("*")]
-                str(pathlib.Path(str(min(all_items)))).split("/")[::-1][0]
-                os.rename(_path, os.path.join(_path.resolve().parent, str(pathlib.Path(str(min(all_items)))).split("/")[::-1][0]))
-                for item in [p for p in pathlib.Path(os.path.join(_path.resolve().parent, str(pathlib.Path(str(min(all_items)))).split("/")[::-1][0]), str(folder_location).split("/")[::-1][0]).rglob("*")]:
-                    print(item)
+            [shutil.move(str(p), folder_location) for p in pathlib.Path(str(min(all_items))).rglob("*")]
+            if platform.system() == "Windows":
+                os.rename(folder_location, os.path.join(_path.resolve().parent, str(pathlib.Path(str(min(all_items)))).split("\\")[::-1][0]))
+                for item in [p for p in pathlib.Path(os.path.join(_path.resolve().parent, str(pathlib.Path(str(min(all_items)))).split("\\")[::-1][0]), str(folder_location).split("\\")[::-1][0]).rglob("*")]:
                     os.remove(str(item))
-            except OSError:
-                print('error')
-                pass # TODO error message
-        print(all_items)
+            else:
+                os.rename(folder_location, os.path.join(_path.resolve().parent, str(pathlib.Path(str(min(all_items)))).split("/")[::-1][0]))
+                for item in [p for p in pathlib.Path(os.path.join(_path.resolve().parent, str(pathlib.Path(str(min(all_items)))).split("/")[::-1][0]), str(folder_location).split("/")[::-1][0]).rglob("*")]:
+                    os.remove(str(item))
