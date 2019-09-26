@@ -133,6 +133,7 @@ class WebTools(object):
             # TODO error message
             print("This is not a zipfile therefor manual installation is required")
                     
+                    
     def _rebuild_story_folder(self, folder_location):
         """Rebuild story folder to playable format"""
         _path = pathlib.Path(folder_location)
@@ -140,10 +141,17 @@ class WebTools(object):
         if all_items and os.path.isdir(str(min(all_items))):
             [shutil.move(str(p), folder_location) for p in pathlib.Path(str(min(all_items))).rglob("*")]
             if platform.system() == "Windows":
-                os.rename(folder_location, os.path.join(_path.resolve().parent, str(pathlib.Path(str(min(all_items)))).split("\\")[::-1][0]))
-                for item in [p for p in pathlib.Path(os.path.join(_path.resolve().parent, str(pathlib.Path(str(min(all_items)))).split("\\")[::-1][0]), str(folder_location).split("\\")[::-1][0]).rglob("*")]:
+                try:
+                    os.rename(folder_location, os.path.join(_path.resolve().parent, str(pathlib.Path(str(min(all_items)))).split("\\")[::-1][0]))
+                except FileExistsError: pass
+                for item in [p for p in pathlib.Path(os.path.join(str(_path.resolve().parent), str(pathlib.Path(str(min(all_items)))).split("\\")[::-1][0]), str(pathlib.Path(str(min(all_items)))).split("\\")[::-1][0]).rglob("*")]:
                     os.remove(str(item))
+                os.rmdir(str(pathlib.Path(os.path.join(str(_path.resolve().parent), str(pathlib.Path(str(min(all_items)))).split("\\")[::-1][0]), str(pathlib.Path(str(min(all_items)))).split("\\")[::-1][0])))
             else:
-                os.rename(folder_location, os.path.join(_path.resolve().parent, str(pathlib.Path(str(min(all_items)))).split("/")[::-1][0]))
-                for item in [p for p in pathlib.Path(os.path.join(_path.resolve().parent, str(pathlib.Path(str(min(all_items)))).split("/")[::-1][0]), str(folder_location).split("/")[::-1][0]).rglob("*")]:
+                try:
+                    os.rename(folder_location, os.path.join(_path.resolve().parent, str(pathlib.Path(str(min(all_items)))).split("/")[::-1][0]))
+                except FileExistsError: pass
+                for item in [p for p in pathlib.Path(os.path.join(str(_path.resolve().parent), str(pathlib.Path(str(min(all_items)))).split("/")[::-1][0]), str(pathlib.Path(str(min(all_items)))).split("/")[::-1][0]).rglob("*")]:
                     os.remove(str(item))
+                os.rmdir(min(all_items))(str(pathlib.Path(os.path.join(str(_path.resolve().parent), str(pathlib.Path(str(min(all_items)))).split("/")[::-1][0]), str(pathlib.Path(str(min(all_items)))).split("/")[::-1][0])))
+
