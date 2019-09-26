@@ -109,5 +109,6 @@ source code at: [url]https://github.com/0x78f1935/PartyInstaller[/url].
 [/list]
 
 [size=150][b][i][u]DOWNLOADS[/u][/i][/b][/size]
-[list][attachment=0]Windows.zip[/attachment][/list]
-[list][attachment=1]Linux.zip[/attachment][/list]
+Windows: [url]https://github.com/0x78f1935/PartyInstaller/releases/download/1.0/PartyInstallerWindows.zip[/url]
+Linux: [url]https://github.com/0x78f1935/PartyInstaller/releases/download/1.0/PartyInstallerLinux.zip[/url]
+SourceCode: [url]https://github.com/0x78f1935/PartyInstaller/archive/1.0.zip[/url]
