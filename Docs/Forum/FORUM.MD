@@ -72,7 +72,7 @@ When uploading make sure the following rules apply to your upload:
         [/list]
         for example
         [list]
-            [*][i]Help Patrick find his forskin [1.14]|COMPLEET| - PuffDip[/i]
+            [*][i]Help Patrick find his forskin [1.14]|COMPLETE| - PuffDip[/i]
             [*][i]Yet another booze bottle [1.14]|INCOMPLETE| - PuffDip[/i]
         [/list]
 
