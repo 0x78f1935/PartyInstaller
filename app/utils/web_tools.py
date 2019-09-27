@@ -31,7 +31,9 @@ class WebTools(object):
             _ = []
             for link in soup.find_all(attrs={'href': re.compile("./viewforum")}):
                 _.append(link.get('href'))
-            self._total_pages = list(set([str(i).replace('./', 'https://forum.eekllc.com/') for i in _ if 'start' in str(i)]))
+            self._total_pages = list(set(
+                [str(i).replace('./', 'https://forum.eekllc.com/') for i in _ if 'start' in str(i)]
+                ))
             
         return links
 
@@ -72,7 +74,10 @@ class WebTools(object):
             if 'Custom Story Creator' in name:
                 results['csc']['thread'] = url
                 results['csc']['thread_title'] = name
-                results["current_version"] = str(re.search(r'(csc).*(\d+\.)?(\d+\.)?(\*|\d+)', results['csc']['thread_title'].lower()).group()).replace('csc', 'Version')
+                results["current_version"] = str(re.search(
+                    r'(csc).*(\d+\.)?(\d+\.)?(\*|\d+)',
+                    results['csc']['thread_title'].lower()).group()
+                    ).replace('csc', 'Version')
             elif 'please read - custom story showcase announcements and rules' in name.lower():
                 results["rules"] = url
             elif '[unofficial] party installer' in name.lower():
@@ -133,23 +138,19 @@ class WebTools(object):
 
             self._rebuild_story_folder(target_path[: int(len(target_path) - 4)])
         except zipfile.BadZipFile:
-            # TODO error message
             mb = QMessageBox()
             mb.setIcon(QMessageBox.Critical)
             mb.setWindowTitle("Error")
             mb.setText("This fileformat is not supported")
             mb.setDetailedText(f"Currently only zip files are supported ...\n\nCheck the forum out for manual installation! Your file is still downloaded and can be located at\n\n\"{os.path.join(location, str('~' + name))}\".")
-            mb.exec() 
-                    
-    def _rebuild_story_folder(self, folder_location):
-        """Rebuild story folder to playable format"""
-        _path = pathlib.Path(folder_location)
-        all_items = [p for p in _path.rglob("*")]
+            mb.exec()
+
+    def __put_in_dir(self, _path, all_items):
         if all_items and os.path.isdir(str(min(all_items))):
-            [shutil.move(str(p), folder_location) for p in pathlib.Path(str(min(all_items))).rglob("*")]
+            [shutil.move(str(p), _path) for p in pathlib.Path(str(min(all_items))).rglob("*")]
             if platform.system() == "Windows":
                 try:
-                    os.rename(folder_location, os.path.join(_path.resolve().parent, str(pathlib.Path(str(min(all_items)))).split("\\")[::-1][0]))
+                    os.rename(_path, os.path.join(_path.resolve().parent, str(pathlib.Path(str(min(all_items)))).split("\\")[::-1][0]))
                 except FileExistsError: pass
                 for item in [p for p in pathlib.Path(os.path.join(str(_path.resolve().parent), str(pathlib.Path(str(min(all_items)))).split("\\")[::-1][0]), str(pathlib.Path(str(min(all_items)))).split("\\")[::-1][0]).rglob("*")]:
                     os.remove(str(item))
@@ -158,11 +159,28 @@ class WebTools(object):
                 except FileNotFoundError: pass
             else:
                 try:
-                    os.rename(folder_location, os.path.join(_path.resolve().parent, str(pathlib.Path(str(min(all_items)))).split("/")[::-1][0]))
+                    os.rename(_path, os.path.join(_path.resolve().parent, str(pathlib.Path(str(min(all_items)))).split("/")[::-1][0]))
                 except FileExistsError: pass
                 for item in [p for p in pathlib.Path(os.path.join(str(_path.resolve().parent), str(pathlib.Path(str(min(all_items)))).split("/")[::-1][0]), str(pathlib.Path(str(min(all_items)))).split("/")[::-1][0]).rglob("*")]:
                     os.remove(str(item))
                 try:
                     os.rmdir(str(pathlib.Path(os.path.join(str(_path.resolve().parent), str(pathlib.Path(str(min(all_items)))).split("/")[::-1][0]), str(pathlib.Path(str(min(all_items)))).split("/")[::-1][0])))
                 except FileNotFoundError: pass
-
+                    
+    def _rebuild_story_folder(self, folder_location):
+        """Rebuild story folder to playable format
+        Parameters
+        ----------
+        folder_location: The default stories folder
+        """
+        _path = pathlib.Path(folder_location)
+        if os.path.exists(_path):
+            all_items = [p for p in _path.rglob("*")]
+            self.__put_in_dir(_path, all_items)
+        else:
+            mb = QMessageBox()
+            mb.setIcon(QMessageBox.Critical)
+            mb.setWindowTitle("Error")
+            mb.setText("Installation failed")
+            mb.setDetailedText(f"Unable to extract downloaded file ...\n\nCheck the forum out for manual installation! Your file is still downloaded and can be located at\n\n\"{_path}\".")
+            mb.exec()

@@ -88,7 +88,11 @@ class Ui_MainWindow(object):
         self.setFolder = QtWidgets.QAction(MainWindow)
         self.setFolder.setWhatsThis("")
         self.setFolder.setObjectName("setFolder")
+        self.setCensorship = QtWidgets.QAction(MainWindow)
+        self.setCensorship.setObjectName("setCensorship")
         self.menuConfigure.addAction(self.setFolder)
+        self.menuConfigure.addSeparator()
+        self.menuConfigure.addAction(self.setCensorship)
         self.menubar.addAction(self.menuConfigure.menuAction())
 
         self.retranslateUi(MainWindow)
@@ -101,6 +105,7 @@ class Ui_MainWindow(object):
         self.menuConfigure.setTitle(_translate("MainWindow", "Configure"))
         self.setFolder.setText(_translate("MainWindow", "Set Story Folder"))
         self.setFolder.setShortcut(_translate("MainWindow", "Ctrl+O"))
+        self.setCensorship.setText(_translate("MainWindow", "Set Censorship"))
 
 
 if __name__ == "__main__":

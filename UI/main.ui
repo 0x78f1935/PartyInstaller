@@ -145,6 +145,8 @@
      <string>Configure</string>
     </property>
     <addaction name="setFolder"/>
+    <addaction name="separator"/>
+    <addaction name="setCensorship"/>
    </widget>
    <addaction name="menuConfigure"/>
   </widget>
@@ -158,6 +160,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="setCensorship">
+   <property name="text">
+    <string>Set Censorship</string>
    </property>
   </action>
  </widget>
